@@ -1,7 +1,11 @@
 /*
   Routes:
-
-*/
+In the Kitchen - South = lounge North = garden East = Bathroom West = Cupboard
+In the Lounge - South = Cupboard North = Kitchen East = Garden West = Bathroom
+In the Garden = South = Kitchen North = Bathroom East = m/a West = Lounge
+In the Bathroom - South = Garden North =n/a East = Lounge West = Kitchen
+In the Cupboard - South = n/a North = Lounge East = Kitchen West = n/a
+*/ 
 
 
 class Room {
@@ -102,14 +106,7 @@ function displayRoomInfo(Room) {
     }
   }
 
-  //console.table(Room);
   
-  //console.log(Room.describe());
-  //console.log(occupantMsg);
-
-  //textContent = "<p>" + Room.describe() + "</p>" + "<p>" +
-  //occupantMsg + "</p>" + "<p>" + Room.getDetails() + "</p>";
-
   document.getElementById("roominfo").innerHTML = content;
   document.getElementById("usertext").focus();
 }
@@ -262,34 +259,14 @@ class Item {
 class Player {
   constructor() {
     this._backpack = []
-    this._health = 10 //Set health to 10
   }
 
-  get health() {
-    return this._health
-  }
 
   get backpack() {
     return this._backpack
   }
 
-  /**
-   * 
-   * method to change player health value as a result of combat
-   * 
-   * @param {int} value number to change health by
-   * @param {boolean} up flag to imdicate whcih way to modigy true for up
-   * @returns {int} value of current player health.
-   */
-  changeHealth(value, up) {
-    if (up) {
-      this._health = this._health + value;
-    } else {
-      this._health = this._health + value;
-    }
-    return this._healh
-  }
-
+  
   /**
    * 
    * method to add item to players backpack
@@ -323,23 +300,14 @@ class Player {
 
 
 
-
-
-
-
-
-
-
-
-
-//create the objects
+//rooms & their descriptions
 const Kitchen = new Room ("Kitchen", "Dark, gloomy & full of creatures lurking in the shadows");
 const Lounge = new Room("Lounge", "Bright & Airy");
 const Garden = new Room("Garden", "Big & Bright with lots of places to hide");
 const Bathroom = new Room("Bathroom", "Cold & slippery");
 const Cupboard = new Room ("Hallway cupboard", "small & cramped with just enough room for one person")
 
-//link them, one way link so both need to link to the other to be able to move between them
+//link rooms
 Kitchen.linkRooms("north",  Garden);
 Kitchen.linkRooms("south", Lounge);
 Kitchen.linkRooms("east", Bathroom);
@@ -357,12 +325,10 @@ Bathroom.linkRooms("west", Kitchen);
 Cupboard.linkRooms("east", Kitchen);
 Cupboard.linkRooms("north", Lounge);
 
-//console.log( Kitchen.move("north") );
-//console.log ( Lounge.move("south") );
 
-//Setup items
-const Dagger = new Item ("Dagger", "sharp and pointy");     //Name
-const Candlestick = new Item ("Candlestick", " big & shiny, when lit it has a 'monstorous flame'");     //Name
+// items & their descriptions
+const Dagger = new Item ("Dagger", "sharp and pointy");     
+const Candlestick = new Item ("Candlestick", " big & shiny, when lit it has a 'monstorous flame'");     
 
 //Add items to rooms
 Lounge.roomItem = Dagger;
@@ -391,21 +357,9 @@ Cupboard.character = Bert
 
 //Create Player
 const thisPlayer = new Player();
-console.log(thisPlayer.health);
 
 
-
-
-
-
-
-
-
-
-
-
-
-//Handle the given sommands
+//Handle the given commands
 function commandHandler(command, character) {
   switch (command) {
     case "fight":
@@ -417,22 +371,6 @@ function commandHandler(command, character) {
       }
       break;
 
-    case "take":
-      //msg = character.converse();
-      //alert(msg)
-      alert("take");
-      break;
-
-    case "inventory":
-      //msg = character.converse();
-      //alert(msg)
-      //break
-      alert("inventory");
-      break;
-
-    default:
-      alert("not done yet")
-      break;
   }
 }
 
@@ -454,7 +392,7 @@ function startGame(){
         const directions = ["north", "south", "east", "west"]
 
         //Action commands for the player
-        const commands = ["fight", "take", "inventory"];
+        const commands = ["fight"];
 
         //If a directional comand
         if (directions.includes(command.toLowerCase())) {
